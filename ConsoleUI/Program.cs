@@ -15,6 +15,7 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
             ProductTest();
+            Console.WriteLine("Mustafa Ceylan");
 
             // IOC
             // CategoryTest();
