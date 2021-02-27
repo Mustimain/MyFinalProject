@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -26,15 +27,17 @@ namespace Business.Concrete
         {
             _productDal = productDal;
             _categoryService = categoryService;
-
         }
 
 
+        [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
 
-           IResult result = BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(product.CategoryId), CheckIfProductNameExist(product.ProductName),
+           IResult result = BusinessRules.Run(
+               CheckIfProductCountOfCategoryCorrect(product.CategoryId),
+               CheckIfProductNameExist(product.ProductName),
                CheckIfCategoryLimitExceded());
 
             if (result != null)
@@ -45,13 +48,9 @@ namespace Business.Concrete
             _productDal.Add(product);
 
             return new SuccessResult(Messages.ProductAdded);
-
                 
         }
             
-
-    
-
         public IDataResult<List<Product>> GetAll()
         {
              if (DateTime.Now.Hour == 5)
