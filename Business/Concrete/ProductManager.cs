@@ -33,9 +33,9 @@ namespace Business.Concrete
         }
 
 
-        [SecuredOperation("product.add,admin")]
-        [ValidationAspect(typeof(ProductValidator))]
-        [CacheRemoveAspect("IProductService.Get")]
+        //[SecuredOperation("product.add,admin")]
+        //[ValidationAspect(typeof(ProductValidator))]
+        //[CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
             
@@ -54,7 +54,14 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductAdded);
                 
         }
-            
+
+        public IResult Delete(Product product)
+        {
+            _productDal.Delete(product);
+
+            return new SuccessResult();
+        }
+
         [PerformanceAspect(5)]
         [CacheAspect]
         public IDataResult<List<Product>> GetAll()
@@ -63,14 +70,13 @@ namespace Business.Concrete
              {
                 return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
              }
-
-            return new SuccessDataResult<List<Product>>(_productDal.GetAll(),Messages.ProductListed);
+             return new SuccessDataResult<List<Product>>(_productDal.GetAll(),Messages.ProductListed);
             
         }
 
-        public IDataResult<List<Product>> GetAllByCategoryId(int Id)
+        public IDataResult<List<Product>> GetAllByCategoryId(int categoryId)
         {
-            return new SuccessDataResult<List<Product>>(_productDal.GetAll(pt=> pt.CategoryId == Id));
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(pt=> pt.CategoryId == categoryId));
         }
 
         [CacheAspect] 
@@ -94,7 +100,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());
         }
 
-        [ValidationAspect(typeof(ProductValidator))]
+        //[ValidationAspect(typeof(ProductValidator))]
         public IResult Update(Product product)
         {
             _productDal.Update(product);
@@ -142,10 +148,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        [TransactionScopeAspect]
-        public IResult AddTransactionalTest(Product product)
-        {
-            throw new NotImplementedException();
-        }
+
+
     }
 }

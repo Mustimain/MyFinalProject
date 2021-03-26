@@ -1,35 +1,31 @@
 ﻿using Business.Abstract;
-using Business.Concrete;
-using DataAccess.Concrete.EntityFramework;
-using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Entities.Concrete;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class CategoriesController : ControllerBase
     {
-        //IoC Container -- Inversion of Control --
+        ICategoryService _categoryService;
 
-        IProductService _productService;
-
-        public ProductsController(IProductService productService)
+        public CategoriesController(ICategoryService categoryService)
         {
-            _productService = productService;
+            _categoryService = categoryService;
         }
 
         [HttpGet("getall")]
 
         public IActionResult GetAll()
         {
-       
-            var result = _productService.GetAll();
+
+            var result = _categoryService.GetAll();
 
             if (result.Success)
             {
@@ -43,29 +39,10 @@ namespace WebAPI.Controllers
 
         [HttpGet("getbyid")]
 
-        public IActionResult GetById(int id)
+        public IActionResult GetByCategoryId(int Id)
         {
 
-            var result = _productService.GetById(id);
-
-            if (result.Success)
-            {
-                return Ok(result.Data);
-            }
-            else
-            {
-                return BadRequest(result);
-            }
-
-        }
-
-
-        [HttpGet("getbycategory")]
-
-        public IActionResult GetByCategory(int categoryId)
-        {
-
-            var result = _productService.GetAllByCategoryId(categoryId);
+            var result = _categoryService.GetById(Id);
 
             if (result.Success)
             {
@@ -75,15 +52,13 @@ namespace WebAPI.Controllers
             {
                 return BadRequest(result);
             }
-
         }
 
         [HttpPost("add")]
 
-        public IActionResult Add(Product product)
+        public IActionResult Add(Category category)
         {
-
-            var result = _productService.Add(product);
+            var result = _categoryService.Add(category);
 
             if (result.Success)
             {
@@ -98,10 +73,9 @@ namespace WebAPI.Controllers
 
         [HttpPost("update")]
 
-        public IActionResult Update(Product product)
+        public IActionResult Update(Category category)
         {
-
-            var result = _productService.Update(product);
+            var result = _categoryService.Update(category);
 
             if (result.Success)
             {
@@ -116,10 +90,9 @@ namespace WebAPI.Controllers
 
         [HttpPost("delete")]
 
-        public IActionResult Delete(Product product)
+        public IActionResult Delete(Category category)
         {
-
-            var result = _productService.Delete(product);
+            var result = _categoryService.Delete(category);
 
             if (result.Success)
             {

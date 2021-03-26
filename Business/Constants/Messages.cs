@@ -17,5 +17,6 @@ namespace Business.Constants
         public static string CategoryLimitExceded = "Kategori limiti asildi";
 
         public static string AuthorizationDenied = "Yetkiniz Yok.";
+        public static string EmployeeListed = "Employee Listed";
     }
 }

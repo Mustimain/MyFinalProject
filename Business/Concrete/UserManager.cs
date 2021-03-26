@@ -4,6 +4,7 @@ using DataAccess.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.Utilities.Results;
 
 namespace Business.Concrete
 {
@@ -21,9 +22,25 @@ namespace Business.Concrete
             return _userDal.GetClaims(user);
         }
 
-        public void Add(User user)
+        public IResult Add(User user)
         {
             _userDal.Add(user);
+
+            return new SuccessResult();
+        }
+
+        public IResult Update(User user)
+        {
+            _userDal.Update(user);
+
+            return new SuccessResult();
+        }
+
+        public IResult Delete(User user)
+        {
+            _userDal.Delete(user);
+
+            return  new SuccessResult();
         }
 
         public User GetByMail(string email)
