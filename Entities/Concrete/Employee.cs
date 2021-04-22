@@ -20,7 +20,6 @@ namespace Entities.Concrete
         public string PostalCode { get; set; }
         public string Country { get; set; }
         public string HomePhone { get; set; }
-        public string Extension { get; set; }
         public string Notes { get; set; }
 
 
